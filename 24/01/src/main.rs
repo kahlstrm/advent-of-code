@@ -13,12 +13,13 @@ fn main() {
         .lines()
         .filter_map(|l| match l.trim() {
             "" => None,
-            other => Some(other.split_whitespace()),
-        })
-        .map(|mut l| {
-            let first = l.next().unwrap().parse::<i32>().unwrap();
-            let second = l.next().unwrap().parse::<i32>().unwrap();
-            (first, second)
+            other => {
+                let mut l = other.split_whitespace();
+                let first = l.next().unwrap().parse::<i32>().unwrap();
+                let second = l.next().unwrap().parse::<i32>().unwrap();
+
+                Some((first, second))
+            }
         })
         .unzip();
     left.sort();
