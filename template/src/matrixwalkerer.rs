@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
     NORTH,
     NORTHWEST,
@@ -31,6 +31,46 @@ pub struct MatrixWalker<'a, T> {
 impl<'a, T> MatrixWalker<'a, T> {
     pub fn peek(&self) -> Option<&T> {
         self.cur
+    }
+    pub fn pos(&self) -> (usize, usize) {
+        (self.i, self.j)
+    }
+    pub fn pos_toward(&self, dir: &Direction) -> Option<(usize, usize)> {
+        let mut pos = (self.i, self.j);
+        match dir {
+            Direction::NORTH => {
+                pos.1 = pos.1.checked_sub(1)?;
+            }
+            Direction::NORTHWEST => {
+                pos.1 = pos.1.checked_sub(1)?;
+                pos.0 += 1;
+            }
+            Direction::WEST => {
+                pos.0 += 1;
+            }
+            Direction::SOUTHWEST => {
+                pos.1 += 1;
+                pos.0 += 1;
+            }
+            Direction::SOUTH => {
+                pos.1 += 1;
+            }
+            Direction::SOUTHEAST => {
+                pos.1 += 1;
+                pos.0 = pos.0.checked_sub(1)?;
+            }
+            Direction::EAST => {
+                pos.0 = pos.0.checked_sub(1)?;
+            }
+            Direction::NORTHEAST => {
+                pos.1 = pos.1.checked_sub(1)?;
+                pos.0 = pos.0.checked_sub(1)?;
+            }
+        }
+        return pos.into();
+    }
+    pub fn peek_forward(&self, dir: &Direction) -> Option<&T> {
+        return MatrixWalker::get_val_from_matrix(self.matrix, self.pos_toward(&dir)?);
     }
     /// attempts moving towards given direction for given amount of steps. If moving is succesful,
     /// returns Ok(()), otherwise Err(usize), usize being steps taken
