@@ -35,7 +35,7 @@ impl<'a, T> MatrixWalker<'a, T> {
     pub fn pos(&self) -> (usize, usize) {
         (self.i, self.j)
     }
-    pub fn peek_forward(&self, dir: &Direction) -> Option<&T> {
+    pub fn pos_toward(&self, dir: &Direction) -> Option<(usize, usize)> {
         let mut pos = (self.i, self.j);
         match dir {
             Direction::NORTH => {
@@ -67,7 +67,10 @@ impl<'a, T> MatrixWalker<'a, T> {
                 pos.0 = pos.0.checked_sub(1)?;
             }
         }
-        return MatrixWalker::get_val_from_matrix(self.matrix, pos);
+        return pos.into();
+    }
+    pub fn peek_forward(&self, dir: &Direction) -> Option<&T> {
+        return MatrixWalker::get_val_from_matrix(self.matrix, self.pos_toward(&dir)?);
     }
     /// attempts moving towards given direction for given amount of steps. If moving is succesful,
     /// returns Ok(()), otherwise Err(usize), usize being steps taken
