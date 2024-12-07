@@ -8,9 +8,23 @@ static TEST_INPUT: &str = r#"190: 10 19
 21037: 9 7 18 13
 292: 11 6 16 20"#;
 static INPUT: &str = include_str!("input");
-fn is_correct(line: &(isize, Vec<isize>), with_concat: bool) -> bool {
+fn count_digits(num: usize) -> u32 {
+    num.ilog10() + 1
+}
+#[cfg(test)]
+mod tests {
+    use crate::count_digits;
+
+    #[test]
+    fn count_digits_works() {
+        for num in 1..10000 {
+            assert_eq!(count_digits(num), num.to_string().len() as u32);
+        }
+    }
+}
+fn is_correct(line: &(usize, Vec<usize>), with_concat: bool) -> bool {
     //println!("{total}: for vec {:?},i is {}, cur is {}", numbers, acc, i);
-    fn _is_correct(line: &(isize, Vec<isize>), with_concat: bool, acc: isize, i: usize) -> bool {
+    fn _is_correct(line: &(usize, Vec<usize>), with_concat: bool, acc: usize, i: usize) -> bool {
         let (total, numbers) = line;
         if i == numbers.len() {
             return acc == *total;
@@ -21,7 +35,7 @@ fn is_correct(line: &(isize, Vec<isize>), with_concat: bool) -> bool {
         if !with_concat {
             return first_res;
         }
-        let concatted: isize = (acc.to_string() + &cur.to_string()).parse().unwrap();
+        let concatted = acc * 10_usize.pow(count_digits(cur)) + cur;
         return first_res || _is_correct(line, with_concat, concatted, i + 1);
     }
     return _is_correct(line, with_concat, 0, 0);
@@ -33,11 +47,11 @@ fn main() {
             "" => None,
             other => {
                 let (first, rest) = other.split_once(":").unwrap();
-                let result: isize = first.parse().unwrap();
+                let result: usize = first.parse().unwrap();
                 let numbers: Vec<_> = rest
                     .trim()
                     .split_whitespace()
-                    .map(|n| n.parse::<isize>().unwrap())
+                    .map(|n| n.parse::<usize>().unwrap())
                     .collect();
                 Some((result, numbers))
             }
