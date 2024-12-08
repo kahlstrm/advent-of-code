@@ -75,6 +75,7 @@ fn fix_order(update: &[usize], inverted_rules: &HashMap<usize, HashSet<usize>>) 
     res
 }
 
+// https://adventofcode.com/2024/day/5
 fn main() {
     let (rules, updates) = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }
         .split_once("\n\n")

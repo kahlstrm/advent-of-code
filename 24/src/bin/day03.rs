@@ -48,6 +48,7 @@ fn parse_mul_instruction(line: &str) -> Option<(i32, usize)> {
     //);
     return Some((first * second, end_idx));
 }
+// https://adventofcode.com/2024/day/3
 fn main() {
     let mut line = if INPUT.len() == 0 { TEST_INPUT } else { INPUT };
     let mut acc = 0;

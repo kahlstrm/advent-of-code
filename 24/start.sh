@@ -1,9 +1,9 @@
 #!/bin/bash -eo pipefail
-BIN_NAME=$(date +"%d")
+BIN_DATE=$(date +"%d")
 if [ ! -z "$1" ]; then
-  BIN_NAME=$(printf "%02d" $1)
+  BIN_DATE=$(printf "%02d" $1)
 fi
-BIN_NAME=day$BIN_NAME
+BIN_NAME=day$BIN_DATE
 mkdir -p src/inputs
 INPUT_FILENAME=src/inputs/$BIN_NAME
 if [ ! -f "$INPUT_FILENAME" ]; then
@@ -19,6 +19,7 @@ cat << EOF > $BIN_FILENAME
 static TEST_INPUT: &str = r#""#;
 static INPUT: &str = include_str!("../inputs/$BIN_NAME");
 
+// https://adventofcode.com/2024/day/${BIN_DATE#0}
 fn main() {
     let lines = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }
         .lines()

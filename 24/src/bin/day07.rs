@@ -41,6 +41,7 @@ fn is_correct(line: &(usize, Vec<usize>), with_concat: bool) -> bool {
     }
     return _is_correct(line, with_concat, 0, 0);
 }
+// https://adventofcode.com/2024/day/7
 fn main() {
     let lines = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }
         .lines()

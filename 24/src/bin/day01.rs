@@ -8,6 +8,7 @@ static TEST_INPUT: &str = r#"
 "#;
 static INPUT: &str = include_str!("../inputs/day01");
 
+// https://adventofcode.com/2024/day/1
 fn main() {
     let (mut left, mut right): (Vec<_>, Vec<_>) = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }
         .lines()

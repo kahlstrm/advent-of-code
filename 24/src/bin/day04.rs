@@ -99,6 +99,7 @@ fn find_x(matrix: &[&[u8]], cross_word: &[u8], (i, j): (usize, usize)) -> bool {
     assert_eq!(word_matching2 || rev_matching2, true);
     true
 }
+// https://adventofcode.com/2024/day/4
 fn main() {
     let matrix: Vec<_> = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }
         .split(|c| *c == b'\n')

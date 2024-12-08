@@ -28,6 +28,7 @@ fn is_safe(line: &[i32]) -> bool {
     }
     return true;
 }
+// https://adventofcode.com/2024/day/2
 fn main() {
     let lines: Vec<_> = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }
         .lines()

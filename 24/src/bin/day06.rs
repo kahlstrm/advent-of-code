@@ -65,6 +65,7 @@ fn traverse_matrix(
     };
     return is_looped;
 }
+// https://adventofcode.com/2024/day/6
 fn main() {
     let matrix: Arc<[&[u8]]> = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }
         .split(|c| *c == b'\n')
