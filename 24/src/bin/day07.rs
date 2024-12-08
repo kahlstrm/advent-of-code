@@ -23,23 +23,27 @@ mod tests {
         }
     }
 }
-fn is_correct(line: &(usize, Vec<usize>), with_concat: bool) -> bool {
+fn is_correct<const WITH_CONCAT: bool>(line: &(usize, Vec<usize>)) -> bool {
     //println!("{total}: for vec {:?},i is {}, cur is {}", numbers, acc, i);
-    fn _is_correct(line: &(usize, Vec<usize>), with_concat: bool, acc: usize, i: usize) -> bool {
+    fn _is_correct<const WITH_CONCAT: bool>(
+        line: &(usize, Vec<usize>),
+        acc: usize,
+        i: usize,
+    ) -> bool {
         let (total, numbers) = line;
         if i == numbers.len() {
             return acc == *total;
         }
         let cur = numbers[i];
-        let first_res = _is_correct(line, with_concat, acc + cur, i + 1)
-            || _is_correct(line, with_concat, acc * cur, i + 1);
-        if !with_concat {
+        let first_res = _is_correct::<WITH_CONCAT>(line, acc + cur, i + 1)
+            || _is_correct::<WITH_CONCAT>(line, acc * cur, i + 1);
+        if !WITH_CONCAT {
             return first_res;
         }
         let concatted = acc * 10_usize.pow(count_digits(cur)) + cur;
-        return first_res || _is_correct(line, with_concat, concatted, i + 1);
+        return first_res || _is_correct::<WITH_CONCAT>(line, concatted, i + 1);
     }
-    return _is_correct(line, with_concat, 0, 0);
+    return _is_correct::<WITH_CONCAT>(line, 0, 0);
 }
 // https://adventofcode.com/2024/day/7
 fn main() {
@@ -61,10 +65,10 @@ fn main() {
     let mut sum = 0;
     let mut sum2 = 0;
     for line in lines {
-        if is_correct(&line, false) {
+        if is_correct::<false>(&line) {
             sum += line.0;
             sum2 += line.0;
-        } else if is_correct(&line, true) {
+        } else if is_correct::<true>(&line) {
             sum2 += line.0;
         }
     }
