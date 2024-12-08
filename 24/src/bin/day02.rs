@@ -6,7 +6,8 @@ static TEST_INPUT: &str = r#"7 6 4 2 1
 1 3 2 4 5
 8 6 4 4 1
 1 3 6 7 9"#;
-static INPUT: &str = include_str!("input");
+static INPUT: &str = include_str!("../inputs/day02");
+
 fn is_safe(line: &[i32]) -> bool {
     let mut ord: Option<Ordering> = None;
     for nums in line.windows(2) {

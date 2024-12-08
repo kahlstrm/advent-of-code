@@ -1,7 +1,5 @@
 use std::{
     collections::{HashMap, HashSet},
-    fmt::write,
-    hash::Hash,
     usize,
 };
 
@@ -34,8 +32,7 @@ static TEST_INPUT: &str = r#"47|53
 61,13,29
 97,13,75,29,47
 "#;
-static INPUT: &str = include_str!("input");
-mod matrixwalkerer;
+static INPUT: &str = include_str!("../inputs/day05");
 fn is_correct(update: &[usize], rules: &HashMap<usize, HashSet<usize>>) -> bool {
     let mut stuff = HashSet::new();
     for num in update {
@@ -73,7 +70,7 @@ fn fix_order(update: &[usize], inverted_rules: &HashMap<usize, HashSet<usize>>) 
                 break;
             };
         }
-        println!("res len{}", res.len());
+        //println!("res len{}", res.len());
     }
     res
 }
@@ -117,9 +114,9 @@ fn main() {
     for update in updates {
         if is_correct(&update, &rules_map) {
             sum += update[update.len() / 2];
-            println!("{:?} is correct", update);
+            //println!("{:?} is correct", update);
         } else {
-            println!("{:?} is incorrect", update);
+            //println!("{:?} is incorrect", update);
             let fixed = fix_order(&update, &rules_map2);
 
             sum2 += fixed[fixed.len() / 2];

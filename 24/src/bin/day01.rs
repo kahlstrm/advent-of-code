@@ -6,7 +6,7 @@ static TEST_INPUT: &str = r#"
 3   9
 3   3
 "#;
-static INPUT: &str = include_str!("input");
+static INPUT: &str = include_str!("../inputs/day01");
 
 fn main() {
     let (mut left, mut right): (Vec<_>, Vec<_>) = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }

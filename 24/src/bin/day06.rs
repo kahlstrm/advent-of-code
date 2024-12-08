@@ -1,6 +1,6 @@
+use aoc_2024::matrixwalkerer::Direction;
+use aoc_2024::matrixwalkerer::MatrixWalker;
 use std::{num::NonZero, sync::Arc, thread::JoinHandle};
-
-use matrixwalkerer::Direction;
 
 static TEST_INPUT: &[u8] = br#"....#.....
 .........#
@@ -12,8 +12,7 @@ static TEST_INPUT: &[u8] = br#"....#.....
 ........#.
 #.........
 ......#..."#;
-static INPUT: &[u8] = include_bytes!("input");
-mod matrixwalkerer;
+static INPUT: &[u8] = include_bytes!("../inputs/day06");
 fn traverse_matrix(
     matrix: &[&[u8]],
     start_pos: (usize, usize),
@@ -24,7 +23,7 @@ fn traverse_matrix(
         arr.fill(None);
     }
     visited[start_pos.1][start_pos.0] = Some(Direction::NORTH);
-    let mut walker = matrixwalkerer::MatrixWalker::new(&matrix, start_pos);
+    let mut walker = MatrixWalker::new(&matrix, start_pos);
     let mut dirs = [
         Direction::NORTH,
         Direction::WEST,

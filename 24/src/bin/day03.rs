@@ -1,6 +1,6 @@
 static TEST_INPUT: &str =
     r#"xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"#;
-static INPUT: &str = include_str!("input");
+static INPUT: &str = include_str!("../inputs/day03");
 const MUL_START: &str = "mul(";
 const DO_INSTR: &str = "do()";
 const DONT_INSTR: &str = "don't()";
@@ -27,7 +27,7 @@ fn parse_mul_instruction(line: &str) -> Option<(i32, usize)> {
     let Some(end_idx) = line.find(')') else {
         return None;
     };
-    println!("{:#?}", &line[..end_idx]);
+    //println!("{:#?}", &line[..end_idx]);
     let Some((first, second)) = line[..end_idx].split_once(',').and_then(|(a, b)| {
         let Ok(a) = a.parse::<i32>() else {
             return None;
@@ -39,13 +39,13 @@ fn parse_mul_instruction(line: &str) -> Option<(i32, usize)> {
     }) else {
         return None;
     };
-    println!(
-        "found! {} * {} = {}, end idx {}",
-        first,
-        second,
-        first * second,
-        end_idx
-    );
+    //println!(
+    //    "found! {} * {} = {}, end idx {}",
+    //    first,
+    //    second,
+    //    first * second,
+    //    end_idx
+    //);
     return Some((first * second, end_idx));
 }
 fn main() {

@@ -7,7 +7,8 @@ static TEST_INPUT: &str = r#"190: 10 19
 192: 17 8 14
 21037: 9 7 18 13
 292: 11 6 16 20"#;
-static INPUT: &str = include_str!("input");
+
+static INPUT: &str = include_str!("../inputs/day07");
 fn count_digits(num: usize) -> u32 {
     num.ilog10() + 1
 }
