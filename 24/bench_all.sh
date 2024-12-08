@@ -1,4 +1,5 @@
-#!/bin/bash -euo pipefail
+#!/bin/bash
+set -eo pipefail
 
 ls src/bin | while read LINE; do
 BIN_NAME=${LINE%.rs}

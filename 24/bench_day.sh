@@ -1,4 +1,5 @@
-#!/bin/bash -eo pipefail
+#!/bin/bash
+set -eo pipefail
 
 BIN_NAME=$(date +"%d")
 if [ ! -z "$1" ]; then
