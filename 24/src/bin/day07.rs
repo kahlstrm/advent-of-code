@@ -1,3 +1,5 @@
+use aoc_2024::count_digits;
+
 static TEST_INPUT: &str = r#"190: 10 19
 3267: 81 40 27
 83: 17 5
@@ -9,20 +11,6 @@ static TEST_INPUT: &str = r#"190: 10 19
 292: 11 6 16 20"#;
 
 static INPUT: &str = include_str!("../inputs/day07");
-fn count_digits(num: usize) -> u32 {
-    num.ilog10() + 1
-}
-#[cfg(test)]
-mod tests {
-    use crate::count_digits;
-
-    #[test]
-    fn count_digits_works() {
-        for num in 1..10000 {
-            assert_eq!(count_digits(num), num.to_string().len() as u32);
-        }
-    }
-}
 fn is_correct<const WITH_CONCAT: bool>(line: &(usize, Vec<usize>)) -> bool {
     //println!("{total}: for vec {:?},i is {}, cur is {}", numbers, acc, i);
     fn _is_correct<const WITH_CONCAT: bool>(
