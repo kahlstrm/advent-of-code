@@ -5,16 +5,33 @@ static INPUT: &str = include_str!("../inputs/day11");
 fn count_digits(num: usize) -> u32 {
     num.ilog10() + 1
 }
+fn split_number(num: usize) -> (usize, usize) {
+    let digits = count_digits(num);
+    assert!(digits % 2 == 0);
+    let mul = 10_usize.pow(digits / 2);
+    let upper = num / 10_usize.pow(digits / 2);
+    let lower = num % (upper * mul);
+    (upper, lower)
+}
+#[cfg(test)]
+mod tests {
+    use crate::split_number;
+
+    #[test]
+    fn split_number_works() {
+        let stone = 1234;
+        assert_eq!(split_number(stone), (12, 34))
+    }
+}
 fn blink(line: &[usize]) -> Vec<usize> {
     let mut res = vec![];
     for stone in line {
         if *stone == 0 {
             res.push(1);
         } else if count_digits(*stone) % 2 == 0 {
-            let as_str = stone.to_string();
-            let (left, right) = as_str.split_at(as_str.len() / 2);
-            res.push(left.parse().unwrap());
-            res.push(right.parse().unwrap());
+            let (left, right) = split_number(*stone);
+            res.push(left);
+            res.push(right);
         } else {
             res.push(*stone * 2024);
         }
