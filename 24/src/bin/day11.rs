@@ -23,20 +23,31 @@ mod tests {
         assert_eq!(split_number(stone), (12, 34))
     }
 }
-fn blink(line: &[usize]) -> Vec<usize> {
-    let mut res = vec![];
+fn blink(line: &[usize], count: usize) -> usize {
+    let mut sum = 0;
     for stone in line {
-        if *stone == 0 {
-            res.push(1);
-        } else if count_digits(*stone) % 2 == 0 {
-            let (left, right) = split_number(*stone);
-            res.push(left);
-            res.push(right);
-        } else {
-            res.push(*stone * 2024);
+        println!("doing stone {}", stone);
+
+        let mut res = vec![*stone];
+        for i in 0..count {
+            let mut res2 = vec![];
+            println!("{i}");
+            for stone in &res {
+                if *stone == 0 {
+                    res2.push(1);
+                } else if count_digits(*stone) % 2 == 0 {
+                    let (left, right) = split_number(*stone);
+                    res2.push(left);
+                    res2.push(right);
+                } else {
+                    res2.push(*stone * 2024);
+                }
+            }
+            res = res2;
         }
+        sum += res.len();
     }
-    res
+    sum
 }
 // https://adventofcode.com/2024/day/11
 fn main() {
@@ -47,10 +58,6 @@ fn main() {
         .map(|x| (x.parse::<usize>().unwrap()))
         .collect();
     println!("{line:#?}");
-    let mut res = line;
-    for i in 0..75 {
-        println!("{i}");
-        res = blink(&res);
-    }
-    println!("{}", res.len())
+    let res = blink(&line, 75);
+    println!("{}", res)
 }
