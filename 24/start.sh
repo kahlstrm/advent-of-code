@@ -16,16 +16,19 @@ BIN_FILENAME=src/bin/$BIN_NAME.rs
 if [ ! -f "$BIN_FILENAME" ]; then
 echo "Creating $BIN_FILENAME"
 cat << EOF > $BIN_FILENAME
-static TEST_INPUT: &str = r#""#;
-static INPUT: &str = include_str!("../inputs/$BIN_NAME");
+const USE_TEST_INPUT: bool = false;
+static TEST_INPUT: &[u8] = br#""#;
+static INPUT: &[u8] = include_bytes!("../inputs/$BIN_NAME");
 
 // https://adventofcode.com/2024/day/${BIN_DATE#0}
 fn main() {
-    let lines = if INPUT.len() == 0 { TEST_INPUT } else { INPUT }
-        .lines()
-        .filter_map(|l| match l.trim() {
-            "" => None,
-            other => Some(other),
+    let debug = USE_TEST_INPUT || INPUT.len() == 0;
+    let lines = if debug { TEST_INPUT } else { INPUT }
+        .trim_ascii()
+        .split(|c| *c == b'\n')
+        .filter_map(|l| match l.trim_ascii() {
+            &[] => None,
+            other => other.into(),
         });
     println!("{lines:#?}")
 }
