@@ -1,4 +1,4 @@
-use std::{collections::HashMap, usize};
+use std::{collections::HashMap, mem::swap, usize};
 
 use aoc_2024::{count_digits, split_number};
 
@@ -9,9 +9,10 @@ static INPUT: &str = include_str!("../inputs/day11");
 // ~8ms for 75 blinks
 fn blink_iterative(line: &[usize], count: usize) -> usize {
     let mut stones: HashMap<usize, usize> = line.iter().map(|stone| (*stone, 1)).collect();
+    let mut new_stones = HashMap::with_capacity(stones.capacity());
     for _ in 0..count {
-        let mut new_stones = HashMap::with_capacity(stones.capacity());
-        for (stone, count) in stones.into_iter() {
+        new_stones.clear();
+        for (&stone, &count) in stones.iter() {
             if stone == 0 {
                 new_stones
                     .entry(1)
@@ -32,7 +33,7 @@ fn blink_iterative(line: &[usize], count: usize) -> usize {
                     .or_insert(count);
             }
         }
-        stones = new_stones;
+        swap(&mut stones, &mut new_stones);
     }
     stones.into_iter().fold(0, |acc, (_, count)| acc + count)
 }
